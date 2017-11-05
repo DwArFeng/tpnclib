@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<root>
-
-	<!--<class name="com.dwarfeng.foo.Foo" /> -->
-	<class name="com.dwarfeng.notewiz.plugin.buildin_0.MemoryProjectProcessor" />
-	<class name="com.dwarfeng.notewiz.plugin.buildin_0.FileSystemProjectProcessor" />
-
-</root>
-

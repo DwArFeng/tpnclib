@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+	<info key="logger.setting" path="attributes/logger/setting.xml"
+		default="/com/dwarfeng/tpnclib/core/resource/defaultres/logger/setting.xml" />
+
+	<info key="configuration.core" path="attributes/configuration/core.properties"
+		default="/com/dwarfeng/tpnclib/core/resource/defaultres/configuration/core.properties" />
+
+	<info key="configuration.modal" path="attributes/configuration/modal.properties"
+		default="/com/dwarfeng/tpnclib/core/resource/defaultres/configuration/modal.properties" />
+
+	<info key="i18n.logger.setting" path="attributes/i18n/logger/setting.xml"
+		default="/com/dwarfeng/tpnclib/core/resource/defaultres/i18n/logger/setting.xml" />
+
+	<info key="i18n.label.setting" path="attributes/i18n/label/setting.xml"
+		default="/com/dwarfeng/tpnclib/core/resource/defaultres/i18n/label/setting.xml" />
+
+</root>
