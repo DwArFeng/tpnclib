@@ -70,20 +70,22 @@ public interface Toolkit {
 	/**
 	 * 释放主界面。
 	 * 
-	 * @return 是否释放成功。
 	 * @throws IllegalStateException
 	 *             因为没有权限而抛出的异常。
+	 * @throws ProcessException
+	 *             过程异常。
 	 */
-	public boolean disposeMainFrame() throws IllegalStateException;
+	public void disposeMainFrame() throws IllegalStateException, ProcessException;
 
 	/**
 	 * 释放NC设置界面。
 	 * 
-	 * @return 是否释放成功。
 	 * @throws IllegalStateException
 	 *             因为没有权限而抛出的异常。
+	 * @throws ProcessException
+	 *             过程异常。
 	 */
-	public boolean disposeNcSettingsFrame() throws IllegalStateException;
+	public void disposeNcSettingsFrame() throws IllegalStateException, ProcessException;
 
 	/**
 	 * 使用指定的记录器处理器 <code>error</code> 一条信息。
@@ -334,8 +336,10 @@ public interface Toolkit {
 	 * @return 是否新建成功。
 	 * @throws IllegalStateException
 	 *             因为没有权限而抛出的异常。
+	 * @throws ProcessException
+	 *             过程异常。
 	 */
-	public boolean newMainFrame() throws IllegalStateException;
+	public void newMainFrame() throws IllegalStateException, ProcessException;
 
 	/**
 	 * 新建NC设置界面。
@@ -343,8 +347,10 @@ public interface Toolkit {
 	 * @return 是否新建成功。
 	 * @throws IllegalStateException
 	 *             因为没有权限而抛出的异常。
+	 * @throws ProcessException
+	 *             过程异常。
 	 */
-	public boolean newNcSettingsFrame() throws IllegalStateException;
+	public void newNcSettingsFrame() throws IllegalStateException, ProcessException;
 
 	/**
 	 * 设置程序的退出代码。

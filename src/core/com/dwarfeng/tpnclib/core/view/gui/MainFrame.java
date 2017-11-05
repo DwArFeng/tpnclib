@@ -54,9 +54,6 @@ public final class MainFrame extends JFrame {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		adjustableBorderPanel.add(scrollPane_1, BorderLayout.CENTER);
 		
-		JEditorPane editorPane = new JEditorPane();
-		scrollPane_1.setViewportView(editorPane);
-		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.SOUTH);
 		GridBagLayout gbl_panel = new GridBagLayout();

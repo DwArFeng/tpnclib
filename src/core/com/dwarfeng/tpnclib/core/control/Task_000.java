@@ -119,6 +119,47 @@ abstract class TpncLibTask extends AbstractTask {
 	}
 
 	/**
+	 * 向记录器中输入一条致命信息。
+	 * 
+	 * @param loggerStringKey
+	 *            指定的文本键。
+	 * @param e
+	 *            指定的可抛出对象。
+	 * @throws NullPointerException
+	 *             入口参数为 <code>null</code>。
+	 */
+	protected void fatal(LoggerStringKey loggerStringKey, Throwable e) {
+		Objects.requireNonNull(loggerStringKey, "入口参数 loggerStringKey 不能为 null。");
+		Objects.requireNonNull(e, "入口参数 e 不能为 null。");
+
+		tpncLib.getToolkit().fatal(
+				I18nUtil.getLoggerString(tpncLib.getToolkit().getLoggerI18nHandler().getCurrentI18n(), loggerStringKey),
+				e);
+	}
+
+	/**
+	 * 向记录器中格式化输入一条警告。
+	 * 
+	 * @param loggerStringKey
+	 *            指定的文本键。
+	 * @param args
+	 *            参数。
+	 * @param e
+	 *            指定的可抛出对象。
+	 * @throws NullPointerException
+	 *             入口参数为 <code>null</code>。
+	 */
+	protected void formatFatal(LoggerStringKey loggerStringKey, Throwable e, Object... args) {
+		Objects.requireNonNull(loggerStringKey, "入口参数 loggerStringKey 不能为 null。");
+		Objects.requireNonNull(args, "入口参数 args 不能为 null。");
+		Objects.requireNonNull(e, "入口参数 e 不能为 null。");
+
+		tpncLib.getToolkit().fatal(String.format(
+				I18nUtil.getLoggerString(tpncLib.getToolkit().getLoggerI18nHandler().getCurrentI18n(), loggerStringKey),
+				args), e);
+	}
+
+	/**
 	 * 获取标签文本。
 	 * 
 	 * @param labelStringKey

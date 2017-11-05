@@ -71,12 +71,12 @@ public final class Constants {
 		}
 
 		@Override
-		public boolean disposeMainFrame() throws IllegalStateException {
+		public void disposeMainFrame() throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: disposeMainFrame");
 		}
 
 		@Override
-		public boolean disposeNcSettingsFrame() throws IllegalStateException {
+		public void disposeNcSettingsFrame() throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: disposeNcSettingsFrame");
 		}
 
@@ -201,12 +201,12 @@ public final class Constants {
 		}
 
 		@Override
-		public boolean newMainFrame() throws IllegalStateException {
+		public void newMainFrame() throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: newMainFrame");
 		}
 
 		@Override
-		public boolean newNcSettingsFrame() throws IllegalStateException {
+		public void newNcSettingsFrame() throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: newNcSettingsFrame");
 		}
 

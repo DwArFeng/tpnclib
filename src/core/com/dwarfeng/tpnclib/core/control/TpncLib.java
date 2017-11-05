@@ -87,15 +87,14 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean disposeMainFrame() throws IllegalStateException {
+		public void disposeMainFrame() throws IllegalStateException {
 			synchronized (mainFrameLock) {
 				if (Objects.isNull(mainFrame)) {
-					return false;
+					return;
 				}
 
 				mainFrame.dispose();
 				mainFrame = null;
-				return true;
 			}
 		}
 
@@ -103,15 +102,14 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean disposeNcSettingsFrame() throws IllegalStateException {
+		public void disposeNcSettingsFrame() throws IllegalStateException {
 			synchronized (ncSettingsFrameLock) {
 				if (Objects.isNull(ncSettingsFrame)) {
-					return false;
+					return;
 				}
 
 				ncSettingsFrame.dispose();
 				ncSettingsFrame = null;
-				return true;
 			}
 		}
 
@@ -357,14 +355,13 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean newMainFrame() throws IllegalStateException {
+		public void newMainFrame() throws IllegalStateException {
 			synchronized (mainFrameLock) {
 				if (Objects.nonNull(mainFrame)) {
-					return false;
+					return;
 				}
 
 				mainFrame = new MainFrame();
-				return true;
 			}
 		}
 
@@ -372,14 +369,13 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean newNcSettingsFrame() throws IllegalStateException {
+		public void newNcSettingsFrame() throws IllegalStateException {
 			synchronized (ncSettingsFrameLock) {
 				if (Objects.nonNull(ncSettingsFrame)) {
-					return false;
+					return;
 				}
 
 				ncSettingsFrame = new NcSettingsFrame();
-				return true;
 			}
 		}
 

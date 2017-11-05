@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.dwarfeng.dutil.basic.gui.swing.SwingUtil;
 import com.dwarfeng.dutil.basic.io.SaveFailedException;
+import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigSaver;
 import com.dwarfeng.dutil.develop.resource.Resource;
 import com.dwarfeng.tpnclib.core.model.eum.LoggerStringKey;
@@ -16,6 +17,7 @@ import com.dwarfeng.tpnclib.core.model.struct.Toolkit.BackgroundType;
 import com.dwarfeng.tpnclib.core.util.ViewUtil;
 
 class DisposeTask extends TpncLibTask {
+
 	private static final int BACKGROUND_MASK = 1;
 	private static final int MODAL_CONFIG_TASK = 2;
 
@@ -97,7 +99,8 @@ class DisposeTask extends TpncLibTask {
 		// 释放界面。
 		try {
 			SwingUtil.invokeAndWaitInEventQueue(() -> {
-				tpncLib.getToolkit().disposeMainFrame();
+				disposeMainFrame();
+				disposeNcSettingsFrame();
 			});
 		} catch (InterruptedException | InvocationTargetException ignore) {
 			// 抛异常也要按照基本法。
@@ -105,6 +108,22 @@ class DisposeTask extends TpncLibTask {
 
 		// 设置退出代码。
 		tpncLib.getToolkit().setExitCode(0 | backgroundMask | modalConfigMask);
+	}
+
+	private void disposeMainFrame() {
+		try {
+			tpncLib.getToolkit().disposeMainFrame();
+		} catch (ProcessException e) {
+			fatal(LoggerStringKey.TASK_DISPOSE_8, e);
+		}
+	}
+
+	private void disposeNcSettingsFrame() {
+		try {
+			tpncLib.getToolkit().disposeNcSettingsFrame();
+		} catch (ProcessException e) {
+			fatal(LoggerStringKey.TASK_DISPOSE_9, e);
+		}
 	}
 
 	private void exportMainFrameAppearance() {

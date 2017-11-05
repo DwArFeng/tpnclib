@@ -10,6 +10,7 @@ import java.util.Set;
 import com.dwarfeng.dutil.basic.gui.swing.SwingUtil;
 import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
+import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.develop.cfg.io.PropConfigLoader;
 import com.dwarfeng.dutil.develop.i18n.io.XmlPropFileI18nLoader;
 import com.dwarfeng.dutil.develop.resource.Resource;
@@ -242,29 +243,31 @@ final class PoseTask extends TpncLibTask {
 		// tpncLib.getToolkit().getMainFrame().setLocationRelativeTo(null);
 		// tpncLib.getToolkit().getMainFrame().setVisible(true);
 
-		if (!tpncLib.getToolkit().newMainFrame()) {
-			warn(LoggerStringKey.TASK_POSE_16);
-			return;
+		try {
+			tpncLib.getToolkit().newMainFrame();
+		} catch (ProcessException e) {
+			fatal(LoggerStringKey.TASK_POSE_16, e);
 		}
 
 		if (!ViewUtil.importMainFrameAppearance(tpncLib.getToolkit().getModalConfigModel(),
 				tpncLib.getToolkit().getMainFrame())) {
 			warn(LoggerStringKey.TASK_POSE_17);
-			return;
 		}
+
+		tpncLib.getToolkit().getMainFrame().setVisible(true);
 
 	}
 
 	private void initNcSettingsFrame() {
-		if (!tpncLib.getToolkit().newNcSettingsFrame()) {
-			warn(LoggerStringKey.TASK_POSE_18);
-			return;
+		try {
+			tpncLib.getToolkit().newNcSettingsFrame();
+		} catch (ProcessException e) {
+			fatal(LoggerStringKey.TASK_POSE_18, e);
 		}
 
 		if (!ViewUtil.importNcSettingsFrameAppearence(tpncLib.getToolkit().getModalConfigModel(),
 				tpncLib.getToolkit().getNcSettingsFrame())) {
 			warn(LoggerStringKey.TASK_POSE_19);
-			return;
 		}
 
 	}

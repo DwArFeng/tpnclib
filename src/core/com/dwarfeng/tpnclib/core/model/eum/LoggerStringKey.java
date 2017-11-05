@@ -44,6 +44,8 @@ public enum LoggerStringKey implements Name {
 	TASK_DISPOSE_5(new DefaultName("task.dispose.5")), //
 	TASK_DISPOSE_6(new DefaultName("task.dispose.6")), //
 	TASK_DISPOSE_7(new DefaultName("task.dispose.7")), //
+	TASK_DISPOSE_8(new DefaultName("task.dispose.8")), //
+	TASK_DISPOSE_9(new DefaultName("task.dispose.9")), //
 
 	TASK_THROABLEREPORT_0(new DefaultName("task.throwablereport.0")), //
 	TASK_THROABLEREPORT_1(new DefaultName("task.throwablereport.1")), //
