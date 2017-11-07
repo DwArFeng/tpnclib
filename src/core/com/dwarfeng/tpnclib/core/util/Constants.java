@@ -24,7 +24,6 @@ import com.dwarfeng.tpnclib.core.model.eum.DialogOptionCombo;
 import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
 import com.dwarfeng.tpnclib.core.model.struct.Toolkit;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
-import com.dwarfeng.tpnclib.core.view.gui.NcSettingsFrame;
 import com.dwarfeng.tpnclib.core.view.struct.GuiManager;
 import com.dwarfeng.tpnclib.core.view.struct.WindowSuppiler;
 
@@ -71,13 +70,8 @@ public final class Constants {
 		}
 
 		@Override
-		public void disposeMainFrame() throws IllegalStateException {
+		public void disposeMainFrame() throws IllegalStateException, ProcessException {
 			throw new IllegalStateException("没有权限运行方法: disposeMainFrame");
-		}
-
-		@Override
-		public void disposeNcSettingsFrame() throws IllegalStateException {
-			throw new IllegalStateException("没有权限运行方法: disposeNcSettingsFrame");
 		}
 
 		@Override
@@ -166,11 +160,6 @@ public final class Constants {
 		}
 
 		@Override
-		public NcSettingsFrame getNcSettingsFrame() throws IllegalStateException {
-			throw new IllegalStateException("没有权限运行方法: getNcSettingsFrame");
-		}
-
-		@Override
 		public String getProperty(TpncLibProperty property) throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: getProperty");
 		}
@@ -203,11 +192,6 @@ public final class Constants {
 		@Override
 		public void newMainFrame() throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: newMainFrame");
-		}
-
-		@Override
-		public void newNcSettingsFrame() throws IllegalStateException {
-			throw new IllegalStateException("没有权限运行方法: newNcSettingsFrame");
 		}
 
 		@Override
@@ -340,15 +324,15 @@ public final class Constants {
 	/** 处理器默认的，没有权限的工具包。 */
 	public final static Toolkit NON_PERMISSION_TOOLKIT = new NonPermissionToolkit();
 	/** 默认标签多语言文件所在的位置 */
-	public final static String RESOURCE_I18N_LABEL_PATH = "/com/dwarfeng/tpnclib/core/resource/defaultres/i18n/label/default.properties";
+	public final static String RESOURCE_I18N_LABEL_PATH = "/com/dwarfeng/tpnclib/resource/core/defaultres/i18n/label/default.properties";
 	/** 默认记录器多语言文件所在的位置 */
-	public final static String RESOURCE_I18N_LOGGER_PATH = "/com/dwarfeng/tpnclib/core/resource/defaultres/i18n/logger/default.properties";
+	public final static String RESOURCE_I18N_LOGGER_PATH = "/com/dwarfeng/tpnclib/resource/core/defaultres/i18n/logger/default.properties";
 	/** 图片根所在的位置 */
-	public final static String RESOURCE_IMAGE_ROOT_PATH = "/com/dwarfeng/tpnclib/core/resource/image/";
+	public final static String RESOURCE_IMAGE_ROOT_PATH = "/com/dwarfeng/tpnclib/resource/core/image/";
 	/** 记录器的默认设置所在的资源位置。 */
-	public final static String RESOURCE_LOGGER_SETTING_PATH = "/com/dwarfeng/tpnclib/core/resource/defaultres/logger/setting.xml";
+	public final static String RESOURCE_LOGGER_SETTING_PATH = "/com/dwarfeng/tpnclib/resource/core/defaultres/logger/setting.xml";
 	/** 路径配置文件所在的位置。 */
-	public final static String RESOURCE_PATH = "/com/dwarfeng/tpnclib/core/resource/paths.xml";
+	public final static String RESOURCE_PATH = "/com/dwarfeng/tpnclib/resource/core/paths.xml";
 
 	// 禁止外部实例化
 	private Constants() {

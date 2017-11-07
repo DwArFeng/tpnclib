@@ -23,7 +23,6 @@ import com.dwarfeng.tpnclib.core.model.eum.DialogOption;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOptionCombo;
 import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
-import com.dwarfeng.tpnclib.core.view.gui.NcSettingsFrame;
 import com.dwarfeng.tpnclib.core.view.struct.WindowSuppiler;
 
 /**
@@ -76,16 +75,6 @@ public interface Toolkit {
 	 *             过程异常。
 	 */
 	public void disposeMainFrame() throws IllegalStateException, ProcessException;
-
-	/**
-	 * 释放NC设置界面。
-	 * 
-	 * @throws IllegalStateException
-	 *             因为没有权限而抛出的异常。
-	 * @throws ProcessException
-	 *             过程异常。
-	 */
-	public void disposeNcSettingsFrame() throws IllegalStateException, ProcessException;
 
 	/**
 	 * 使用指定的记录器处理器 <code>error</code> 一条信息。
@@ -267,15 +256,6 @@ public interface Toolkit {
 	public ExconfigModel getModalConfigModelReadOnly() throws IllegalStateException;
 
 	/**
-	 * 获取程序中的NC设置界面。
-	 * 
-	 * @return 程序中的NC设置界面。
-	 * @throws IllegalStateException
-	 *             因为没有执行权限而抛出的异常。
-	 */
-	public NcSettingsFrame getNcSettingsFrame() throws IllegalStateException;
-
-	/**
 	 * 获取程序属性。
 	 * 
 	 * @param property
@@ -340,17 +320,6 @@ public interface Toolkit {
 	 *             过程异常。
 	 */
 	public void newMainFrame() throws IllegalStateException, ProcessException;
-
-	/**
-	 * 新建NC设置界面。
-	 * 
-	 * @return 是否新建成功。
-	 * @throws IllegalStateException
-	 *             因为没有权限而抛出的异常。
-	 * @throws ProcessException
-	 *             过程异常。
-	 */
-	public void newNcSettingsFrame() throws IllegalStateException, ProcessException;
 
 	/**
 	 * 设置程序的退出代码。

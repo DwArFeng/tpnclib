@@ -51,7 +51,6 @@ import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
 import com.dwarfeng.tpnclib.core.model.struct.Toolkit;
 import com.dwarfeng.tpnclib.core.util.ModelUtil;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
-import com.dwarfeng.tpnclib.core.view.gui.NcSettingsFrame;
 import com.dwarfeng.tpnclib.core.view.struct.GuiManager;
 import com.dwarfeng.tpnclib.core.view.struct.WindowSuppiler;
 
@@ -95,21 +94,6 @@ public final class TpncLib {
 
 				mainFrame.dispose();
 				mainFrame = null;
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void disposeNcSettingsFrame() throws IllegalStateException {
-			synchronized (ncSettingsFrameLock) {
-				if (Objects.isNull(ncSettingsFrame)) {
-					return;
-				}
-
-				ncSettingsFrame.dispose();
-				ncSettingsFrame = null;
 			}
 		}
 
@@ -292,16 +276,6 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public NcSettingsFrame getNcSettingsFrame() throws IllegalStateException {
-			synchronized (mainFrameLock) {
-				return ncSettingsFrame;
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
 		public String getProperty(TpncLibProperty property) throws IllegalStateException {
 			Objects.requireNonNull(property, "入口参数 property 不能为 null。");
 
@@ -361,21 +335,7 @@ public final class TpncLib {
 					return;
 				}
 
-				mainFrame = new MainFrame();
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void newNcSettingsFrame() throws IllegalStateException {
-			synchronized (ncSettingsFrameLock) {
-				if (Objects.nonNull(ncSettingsFrame)) {
-					return;
-				}
-
-				ncSettingsFrame = new NcSettingsFrame();
+				mainFrame = new MainFrame(guiManager, labelI18nHandler);
 			}
 		}
 
@@ -609,7 +569,7 @@ public final class TpncLib {
 
 	/** 程序的版本 */
 	public final static Version VERSION = new DefaultVersion.Builder().type(VersionType.ALPHA).firstVersion((byte) 0)
-			.secondVersion((byte) 0).thirdVersion((byte) 3).buildDate("20171027").buildVersion('A').build();
+			.secondVersion((byte) 0).thirdVersion((byte) 1).buildDate("19700101").buildVersion('A').build();
 	private final static Map<TpncLibProperty, String> DEFAULT_PROPERTIES = new EnumMap<>(TpncLibProperty.class);
 
 	/** 程序的实例列表，用于持有引用 */
@@ -674,9 +634,6 @@ public final class TpncLib {
 	// 主界面。
 	private MainFrame mainFrame;
 	private final Object mainFrameLock = new Object();
-	// NC设置界面。
-	private NcSettingsFrame ncSettingsFrame;
-	private final Object ncSettingsFrameLock = new Object();
 
 	// --------------------------------------------观察器--------------------------------------------
 	/** 配置观察器。 */
@@ -738,7 +695,11 @@ public final class TpncLib {
 	private void fireRuntimeStateChanged(RuntimeState oldState, RuntimeState newState) {
 		for (ProgramObverser obverser : programObversers) {
 			if (Objects.nonNull(obverser))
-				obverser.fireRuntimeStateChanged(oldState, newState);
+				try {
+					obverser.fireRuntimeStateChanged(oldState, newState);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 		}
 	}
 

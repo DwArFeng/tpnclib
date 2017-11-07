@@ -11,8 +11,12 @@ import com.dwarfeng.dutil.basic.str.Name;
  */
 public enum LabelStringKey implements Name {
 
-	// 仅做示例。
-	MFMENU_1_1(new DefaultName("mfmenu.1.1")), //
+	MAINFRAME_1(new DefaultName("mainframe.1")), //
+
+	MFMENU_01_1(new DefaultName("mfmenu_01.1")), //
+	MFMENU_01_2(new DefaultName("mfmenu_01.2")), //
+
+	MFMENU_02_1(new DefaultName("mfmenu_02.1")), //
 
 	;
 

@@ -4,13 +4,13 @@ import java.util.Objects;
 
 import javax.swing.JMenu;
 
-import com.dwarfeng.dutil.basic.LabelStringKey;
 import com.dwarfeng.dutil.basic.gui.swing.SwingUtil;
 import com.dwarfeng.dutil.basic.threads.ThreadUtil;
 import com.dwarfeng.dutil.develop.i18n.I18n;
 import com.dwarfeng.dutil.develop.i18n.I18nHandler;
 import com.dwarfeng.dutil.develop.i18n.obv.I18nAdapter;
 import com.dwarfeng.dutil.develop.i18n.obv.I18nObverser;
+import com.dwarfeng.tpnclib.core.model.eum.LabelStringKey;
 import com.dwarfeng.tpnclib.core.util.Constants;
 import com.dwarfeng.tpnclib.core.util.I18nUtil;
 import com.dwarfeng.tpnclib.core.view.struct.GuiManager;
@@ -23,8 +23,8 @@ import com.dwarfeng.tpnclib.core.view.struct.GuiManager;
  */
 public abstract class TpncLibMenu extends JMenu {
 
-	private static final long serialVersionUID = 5295009302935950049L;
-
+	private static final long serialVersionUID = -1111004547448398371L;
+	
 	/** 抽象对话框中的 GUI 管理器。 */
 	protected final GuiManager guiManager;
 	/** 抽象对话框中的国际化处理器。 */

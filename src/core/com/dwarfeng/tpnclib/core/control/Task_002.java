@@ -70,7 +70,6 @@ class DisposeTask extends TpncLibTask {
 		try {
 			SwingUtil.invokeAndWaitInEventQueue(() -> {
 				exportMainFrameAppearance();
-				exportNcSettingsFrameAppearance();
 			});
 		} catch (InterruptedException | InvocationTargetException ignore) {
 			// 抛异常也要按照基本法。
@@ -100,7 +99,6 @@ class DisposeTask extends TpncLibTask {
 		try {
 			SwingUtil.invokeAndWaitInEventQueue(() -> {
 				disposeMainFrame();
-				disposeNcSettingsFrame();
 			});
 		} catch (InterruptedException | InvocationTargetException ignore) {
 			// 抛异常也要按照基本法。
@@ -118,92 +116,10 @@ class DisposeTask extends TpncLibTask {
 		}
 	}
 
-	private void disposeNcSettingsFrame() {
-		try {
-			tpncLib.getToolkit().disposeNcSettingsFrame();
-		} catch (ProcessException e) {
-			fatal(LoggerStringKey.TASK_DISPOSE_9, e);
-		}
-	}
-
 	private void exportMainFrameAppearance() {
-		// westPanelVisible =
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().isWestVisible();
-		// eastPanelVisible =
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().isEastVisible();
-		// northPanelVisible =
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().isNorthVisible();
-		// southPanelVisible =
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().isSouthVisible();
-		//
-		// maximum =
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().isMaximum();
-		//
-		// westPanelSize =
-		// tpncLib.getToolkit().getMainFrame().getWestPreferredValue();
-		// eastPanelSize =
-		// tpncLib.getToolkit().getMainFrame().getEastPreferredValue();
-		// southPanelSize =
-		// tpncLib.getToolkit().getMainFrame().getSouthPreferredValue();
-		//
-		// frameWidth =
-		// tpncLib.getToolkit().getMainFrame().getFrameWidth();
-		// frameHeight =
-		// tpncLib.getToolkit().getMainFrame().getFrameHeight();
-		//
-		// extendedState =
-		// tpncLib.getToolkit().getMainFrame().getExtendedState();
-
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_VISIBLE_MAINFRAME_WEST.getConfigKey(),
-		// modalGetter.isWestPanelVisible());
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_VISIBLE_MAINFRAME_EAST.getConfigKey(),
-		// modalGetter.isEastPanelVisible());
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_VISIBLE_MAINFRAME_NORTH.getConfigKey(),
-		// modalGetter.isNorthPanelVisible());
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_VISIBLE_MAINFRAME_SOUTH.getConfigKey(),
-		// modalGetter.isSouthPanelVisible());
-		//
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_MAXIMUM_MAINFRAME.getConfigKey(),
-		// modalGetter.isMaximum());
-		//
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_SIZE_MAINFRAME_WEST.getConfigKey(),
-		// modalGetter.getWestPanelSize());
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_SIZE_MAINFRAME_EAST.getConfigKey(),
-		// modalGetter.getEastPanelSize());
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_SIZE_MAINFRAME_SOUTH.getConfigKey(),
-		// modalGetter.getSouthPanelSize());
-		//
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_SIZE_MAINFRAME_WIDTH.getConfigKey(),
-		// modalGetter.getFrameWidth());
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_SIZE_MAINFRAME_HEIGHT.getConfigKey(),
-		// modalGetter.getFrameHeight());
-		//
-		// tpncLib.getToolkit().getModalConfigModel().setParsedValue(
-		// ModalConfiguration.GUI_STATE_MAINFRAME_EXTENDED.getConfigKey(),
-		// modalGetter.getExtendedState());
-
 		if (!ViewUtil.exportMainFrameAppearance(tpncLib.getToolkit().getModalConfigModel(),
 				tpncLib.getToolkit().getMainFrame())) {
 			warn(LoggerStringKey.TASK_DISPOSE_6);
-			return;
-		}
-
-	}
-
-	private void exportNcSettingsFrameAppearance() {
-		if (!ViewUtil.exportNcSettingsFrameApperence(tpncLib.getToolkit().getModalConfigModel(),
-				tpncLib.getToolkit().getNcSettingsFrame())) {
-			warn(LoggerStringKey.TASK_DISPOSE_7);
 			return;
 		}
 

@@ -163,7 +163,6 @@ final class PoseTask extends TpncLibTask {
 		try {
 			SwingUtil.invokeAndWaitInEventQueue(() -> {
 				initMainFrame();
-				initNcSettingsFrame();
 			});
 		} catch (InterruptedException | InvocationTargetException ignore) {
 			// 抛异常也要按照基本法。
@@ -184,65 +183,6 @@ final class PoseTask extends TpncLibTask {
 	}
 
 	private void initMainFrame() {
-		// final ExconfigModel c = tpncLib.getToolkit().getModalConfigModel();
-		//
-		// final boolean westPanelVisible =
-		// c.getParsedValue(ModalConfiguration.GUI_VISIBLE_MAINFRAME_WEST.getConfigKey(),
-		// Boolean.class);
-		// final boolean eastPanelVisible =
-		// c.getParsedValue(ModalConfiguration.GUI_VISIBLE_MAINFRAME_EAST.getConfigKey(),
-		// Boolean.class);
-		// final boolean northPanelVisible = c
-		// .getParsedValue(ModalConfiguration.GUI_VISIBLE_MAINFRAME_NORTH.getConfigKey(),
-		// Boolean.class);
-		// final boolean southPanelVisible = c
-		// .getParsedValue(ModalConfiguration.GUI_VISIBLE_MAINFRAME_SOUTH.getConfigKey(),
-		// Boolean.class);
-		//
-		// final boolean maximum =
-		// c.getParsedValue(ModalConfiguration.GUI_MAXIMUM_MAINFRAME.getConfigKey(),
-		// Boolean.class);
-		//
-		// final int westPanelSize =
-		// c.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_WEST.getConfigKey(),
-		// Integer.class);
-		// final int eastPanelSize =
-		// c.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_EAST.getConfigKey(),
-		// Integer.class);
-		// final int southPanelSize =
-		// c.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_SOUTH.getConfigKey(),
-		// Integer.class);
-		//
-		// final int frameWidth =
-		// c.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_WIDTH.getConfigKey(),
-		// Integer.class);
-		// final int frameHeight =
-		// c.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_HEIGHT.getConfigKey(),
-		// Integer.class);
-		//
-		// final int extendedState =
-		// c.getParsedValue(ModalConfiguration.GUI_STATE_MAINFRAME_EXTENDED.getConfigKey(),
-		// Integer.class);
-		//
-		// tpncLib.getToolkit().newMainFrame();
-		//
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().setWestVisible(westPanelVisible);
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().setEastVisible(eastPanelVisible);
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().setNorthVisible(northPanelVisible);
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().setSouthVisible(southPanelVisible);
-		//
-		// tpncLib.getToolkit().getMainFrame().getVisibleModel().setMaximum(maximum);
-		//
-		// tpncLib.getToolkit().getMainFrame().setWestPreferredValue(westPanelSize);
-		// tpncLib.getToolkit().getMainFrame().setEastPreferredValue(eastPanelSize);
-		// tpncLib.getToolkit().getMainFrame().setSouthPreferredValue(southPanelSize);
-		//
-		// tpncLib.getToolkit().getMainFrame().setSize(frameWidth, frameHeight);
-		// tpncLib.getToolkit().getMainFrame().setExtendedState(extendedState);
-		//
-		// tpncLib.getToolkit().getMainFrame().setLocationRelativeTo(null);
-		// tpncLib.getToolkit().getMainFrame().setVisible(true);
-
 		try {
 			tpncLib.getToolkit().newMainFrame();
 		} catch (ProcessException e) {
@@ -255,20 +195,7 @@ final class PoseTask extends TpncLibTask {
 		}
 
 		tpncLib.getToolkit().getMainFrame().setVisible(true);
-
-	}
-
-	private void initNcSettingsFrame() {
-		try {
-			tpncLib.getToolkit().newNcSettingsFrame();
-		} catch (ProcessException e) {
-			fatal(LoggerStringKey.TASK_POSE_18, e);
-		}
-
-		if (!ViewUtil.importNcSettingsFrameAppearence(tpncLib.getToolkit().getModalConfigModel(),
-				tpncLib.getToolkit().getNcSettingsFrame())) {
-			warn(LoggerStringKey.TASK_POSE_19);
-		}
+		tpncLib.getToolkit().getMainFrame().setLocationRelativeTo(null);
 
 	}
 }

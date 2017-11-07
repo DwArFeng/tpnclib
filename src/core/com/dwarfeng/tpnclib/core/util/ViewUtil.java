@@ -1,8 +1,8 @@
 package com.dwarfeng.tpnclib.core.util;
 
 import com.dwarfeng.dutil.develop.cfg.SyncExconfigModel;
+import com.dwarfeng.tpnclib.core.model.eum.ModalConfiguration;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
-import com.dwarfeng.tpnclib.core.view.gui.NcSettingsFrame;
 
 /**
  * 与视图有关的工具包。
@@ -28,8 +28,19 @@ public final class ViewUtil {
 	 */
 	public static boolean importMainFrameAppearance(SyncExconfigModel modalConfig, MainFrame mainFrame) {
 		try {
-			// TODO Auto-generated Method Stub.
-			return false;
+			mainFrame.setWestPreferredValue(modalConfig
+					.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_WEST.getConfigKey(), Integer.class));
+
+			int width = modalConfig.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_WIDTH.getConfigKey(),
+					Integer.class);
+			int height = modalConfig.getParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_HEIGHT.getConfigKey(),
+					Integer.class);
+			mainFrame.setSize(width, height);
+
+			mainFrame.setExtendedState(modalConfig
+					.getParsedValue(ModalConfiguration.GUI_STATE_MAINFRAME_EXTENDED.getConfigKey(), Integer.class));
+
+			return true;
 		} catch (Exception e) {
 			return false;
 		}
@@ -51,53 +62,18 @@ public final class ViewUtil {
 	 */
 	public static boolean exportMainFrameAppearance(SyncExconfigModel modalConfig, MainFrame mainFrame) {
 		try {
-			// TODO Auto-generated Method Stub.
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+			modalConfig.setParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_WEST.getConfigKey(),
+					mainFrame.getWestPreferredValue());
 
-	/**
-	 * 将模态设置导入到NC设置界面外观中。
-	 * 
-	 * <p>
-	 * 该方法应该在 <b>AWT线程</b> 中执行。
-	 * 
-	 * @param modalConfig
-	 *            指定的模态设置。
-	 * @param ncSettingsFrame
-	 *            指定的NC设置界面。
-	 * @return 是否全部导入成功。
-	 * @throws NullPointerException
-	 *             指定的入口参数为 <code> null </code>。
-	 */
-	public static boolean importNcSettingsFrameAppearence(SyncExconfigModel modalConfig,
-			NcSettingsFrame ncSettingsFrame) {
-		try {
-			// TODO Auto-generated Method Stub.
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+			modalConfig.setParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_WIDTH.getConfigKey(),
+					mainFrame.getSize().width);
+			modalConfig.setParsedValue(ModalConfiguration.GUI_SIZE_MAINFRAME_HEIGHT.getConfigKey(),
+					mainFrame.getSize().height);
 
-	/**
-	 * 将NC设置界面的外观导出到模态设置中。
-	 * 
-	 * @param modalConfig
-	 *            指定的模态设置。
-	 * @param ncSettingsFrame
-	 *            指定的的NC设置界面。
-	 * @return 是否全部导出成功。
-	 * @throws NullPointerException
-	 *             指定的入口参数为 <code> null </code>。
-	 */
-	public static boolean exportNcSettingsFrameApperence(SyncExconfigModel modalConfig,
-			NcSettingsFrame ncSettingsFrame) {
-		try {
-			// TODO Auto-generated Method Stub.
-			return false;
+			modalConfig.setParsedValue(ModalConfiguration.GUI_STATE_MAINFRAME_EXTENDED.getConfigKey(),
+					mainFrame.getExtendedState());
+
+			return true;
 		} catch (Exception e) {
 			return false;
 		}
