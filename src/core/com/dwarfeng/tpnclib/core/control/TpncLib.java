@@ -1,6 +1,6 @@
 package com.dwarfeng.tpnclib.core.control;
 
-import java.net.URLClassLoader;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -16,6 +16,12 @@ import java.util.concurrent.Executors;
 
 import javax.swing.Icon;
 
+import com.dwarfeng.dutil.basic.cna.model.DefaultReferenceModel;
+import com.dwarfeng.dutil.basic.cna.model.DelegateListModel;
+import com.dwarfeng.dutil.basic.cna.model.ListModel;
+import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
+import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
+import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.prog.DefaultVersion;
 import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.basic.prog.ProgramObverser;
@@ -48,7 +54,11 @@ import com.dwarfeng.tpnclib.core.model.eum.DialogOption;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOptionCombo;
 import com.dwarfeng.tpnclib.core.model.eum.ModalConfiguration;
 import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
+import com.dwarfeng.tpnclib.core.model.io.DefaultPluginClassLoader;
+import com.dwarfeng.tpnclib.core.model.io.PluginClassLoader;
+import com.dwarfeng.tpnclib.core.model.struct.PieceCata;
 import com.dwarfeng.tpnclib.core.model.struct.Toolkit;
+import com.dwarfeng.tpnclib.core.model.struct.Toolkit.BackgroundType;
 import com.dwarfeng.tpnclib.core.util.ModelUtil;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
 import com.dwarfeng.tpnclib.core.view.struct.GuiManager;
@@ -161,6 +171,25 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public SyncReferenceModel<PieceCata> getAnchorPieceCataModel() {
+			return anchorPieceCataModel;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public ReferenceModel<PieceCata> getAnchorPieceCataModelReadOnly() {
+			return com.dwarfeng.dutil.basic.cna.model.ModelUtil.readOnlyReferenceModel(anchorPieceCataModel,
+					pieceCata -> {
+						return ModelUtil.unmodifiablePieceCata(pieceCata);
+					});
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public Background getBackground(BackgroundType type) throws IllegalStateException {
 			Objects.requireNonNull(type, "入口参数 type 不能为 null。");
 			switch (type) {
@@ -214,10 +243,12 @@ public final class TpncLib {
 			return I18nUtil.readOnlyI18nHandler(labelI18nHandler);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
-		public URLClassLoader getLibraryClassLoader() throws IllegalStateException {
-			// TODO Auto-generated method stub
-			return null;
+		public PluginClassLoader getLibraryClassLoader() throws IllegalStateException {
+			return libraryClassLoader;
 		}
 
 		@Override
@@ -276,6 +307,24 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public SyncListModel<PieceCata> getPieceCataModel() {
+			return pieceCataModel;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public ListModel<PieceCata> getPieceCataModelReadOnly() {
+			return com.dwarfeng.dutil.basic.cna.model.ModelUtil.readOnlyListModel(pieceCataModel, pieceCata -> {
+				return ModelUtil.unmodifiablePieceCata(pieceCata);
+			});
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public String getProperty(TpncLibProperty property) throws IllegalStateException {
 			Objects.requireNonNull(property, "入口参数 property 不能为 null。");
 
@@ -314,15 +363,17 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public boolean hasPermission(Method method) {
+			return true;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public void info(String message) throws IllegalStateException {
 			Objects.requireNonNull(message, "入口参数 message 不能为 null。");
 			loggerHandler.info(message);
-		}
-
-		@Override
-		public boolean isMainFrameVisible() throws IllegalStateException {
-			// TODO Auto-generated method stub
-			return false;
 		}
 
 		/**
@@ -335,7 +386,7 @@ public final class TpncLib {
 					return;
 				}
 
-				mainFrame = new MainFrame(guiManager, labelI18nHandler);
+				mainFrame = new MainFrame(guiManager, labelI18nHandler, pieceCataModel, anchorPieceCataModel);
 			}
 		}
 
@@ -349,10 +400,16 @@ public final class TpncLib {
 			}
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void setRuntimeState(RuntimeState runtimeState) throws IllegalStateException {
-			// TODO Auto-generated method stub
-
+			synchronized (runtimeStateLock) {
+				RuntimeState oldState = TpncLib.this.runtimeState;
+				TpncLib.this.runtimeState = runtimeState;
+				fireRuntimeStateChanged(oldState, runtimeState);
+			}
 		}
 
 		@Override
@@ -512,10 +569,13 @@ public final class TpncLib {
 			loggerHandler.trace(message);
 		}
 
+		/**
+		 * {@inheritDoc}
+		 */
 		@Override
 		public void tryExit() throws IllegalStateException {
-			// TODO Auto-generated method stub
-
+			// TODO 完善关闭程序的方法。
+			// manager.getBackgroundModel().submit(flowProvider.newClosingFlow());
 		}
 
 		/**
@@ -565,8 +625,30 @@ public final class TpncLib {
 
 	private final class TpncLibGuiManager implements GuiManager {
 
-	}
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public void exit(ExecType type) {
+			doTask(new ExitTask(TpncLib.this), type);
+		}
 
+		private void doTask(Task task, ExecType type) {
+			Objects.requireNonNull(type, "入口参数 type 不能为 null。");
+
+			switch (type) {
+			case CONCURRENT:
+				getToolkit().submitTask(task, BackgroundType.CONCURRENT);
+				return;
+			case FIFO:
+				getToolkit().submitTask(task, BackgroundType.FIFO);
+				return;
+			}
+			throw new IllegalArgumentException("入口参数 " + type + " 不合法");
+		}
+
+	}
+	
 	/** 程序的版本 */
 	public final static Version VERSION = new DefaultVersion.Builder().type(VersionType.ALPHA).firstVersion((byte) 0)
 			.secondVersion((byte) 0).thirdVersion((byte) 1).buildDate("19700101").buildVersion('A').build();
@@ -601,6 +683,15 @@ public final class TpncLib {
 	private final SyncI18nHandler loggerI18nHandler = I18nUtil.syncI18nHandler(new DelegateI18nHandler());
 	// 记录器接口
 	private final SyncLoggerHandler loggerHandler = ModelUtil.syncLoggerHandler(new DelegateLoggerHandler());
+	// 试件类型列表
+	private final SyncListModel<PieceCata> pieceCataModel = com.dwarfeng.dutil.basic.cna.model.ModelUtil
+			.syncListModel(new DelegateListModel<>());
+	// 锚点试件类型
+	private final SyncReferenceModel<PieceCata> anchorPieceCataModel = com.dwarfeng.dutil.basic.cna.model.ModelUtil
+			.syncReferenceModel(new DefaultReferenceModel<>());
+	// 库类加载器
+	private final PluginClassLoader libraryClassLoader = new DefaultPluginClassLoader(new URL[0],
+			DefaultPluginClassLoader.class.getClassLoader());
 
 	// --------------------------------------------控制--------------------------------------------
 	/** 程序的侦听器集合 */

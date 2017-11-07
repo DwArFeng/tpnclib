@@ -1,9 +1,11 @@
 package com.dwarfeng.tpnclib.core.model.struct;
 
-import java.net.URLClassLoader;
-
 import javax.swing.Icon;
 
+import com.dwarfeng.dutil.basic.cna.model.ListModel;
+import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
+import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
+import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.basic.prog.ProgramObverser;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
@@ -22,6 +24,7 @@ import com.dwarfeng.tpnclib.core.model.eum.DialogMessage;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOption;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOptionCombo;
 import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
+import com.dwarfeng.tpnclib.core.model.io.PluginClassLoader;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
 import com.dwarfeng.tpnclib.core.view.struct.WindowSuppiler;
 
@@ -44,6 +47,59 @@ public interface Toolkit {
 		CONCURRENT,
 		/** 先进先出后台。 */
 		FIFO,
+	}
+
+	/**
+	 * 工具包的所有方法。
+	 * 
+	 * @author DwArFeng
+	 * @since 0.0.1-alpha
+	 */
+	public enum Method {
+		ADDCORECONFIGOBVERSER, //
+		ADDPROGRAMOBVERSER, //
+		DISPOSEMAINFRAME, //
+		ERROR, //
+		EXIT, //
+		FATAL, //
+		GETANCHORPIECECATAMODEL, //
+		GETANCHORPIECECATAMODELREADONLY, //
+		GETBACKGROUND, //
+		GETCORECONFIGMODEL, //
+		GETCORECONFIGMODELREADONLY, //
+		GETEXITCODE, //
+		GETLABELI18NHANDLER, //
+		GETLABELI18NHANDLERREADONLY, //
+		GETLIBRARYCLASSLOADER, //
+		GETLOGGERHANDLER, //
+		GETLOGGERHANDLERREADONLY, //
+		GETLOGGERI18NHANDLER, //
+		GETLOGGERI18NHANDLERREADONLY, //
+		GETMAINFRAME, //
+		GETMODALCONFIGMODEL, //
+		GETMODALCONFIGMODELREADONLY, //
+		GETPIECECATAMODEL, //
+		GETPIECECATAMODELREADONLY, //
+		GETPROPERTY, //
+		GETRESOURCEHANDLER, //
+		GETRESOURCEHANDLERREADONLY, //
+		GETRUNTIMESTATE, //
+		HASPERMISSION, //
+		INFO, //
+		NEWMAINFRAME, //
+		NOTHASPERMISSION, //
+		SETEXITCODE, //
+		SETRUNTIMESTATE, //
+		SHOWCONFIRMDIALOG, //
+		SHOWEXTERNALWINDOW, //
+		SHOWINPUTDIALOG, //
+		SHOWMESSAGEDIALOG, //
+		SHOWOPTIONDIALOG, //
+		START, //
+		SUBMITTASK, //
+		TRACE, //
+		TRYEXIT, //
+		WARN,//
 	}
 
 	/**
@@ -115,6 +171,26 @@ public interface Toolkit {
 	public void fatal(String message, Throwable t) throws IllegalStateException;
 
 	/**
+	 * 获取锚点试件模型。
+	 * 
+	 * @return 锚点试件模型。
+	 * @throws IllegalStateException
+	 *             因为没有权限而抛出的异常。
+	 */
+	public SyncReferenceModel<PieceCata> getAnchorPieceCataModel();
+
+	/**
+	 * 获取锚点试件模型。
+	 * <p>
+	 * 该锚点试件模型是只读的。
+	 * 
+	 * @return 锚点试件模型。
+	 * @throws IllegalStateException
+	 *             因为没有权限而抛出的异常。
+	 */
+	public ReferenceModel<PieceCata> getAnchorPieceCataModelReadOnly();
+
+	/**
 	 * 获取程序中的后台。
 	 * 
 	 * @param type
@@ -182,7 +258,7 @@ public interface Toolkit {
 	 * @throws IllegalStateException
 	 *             因为没有执行权限而抛出的异常。
 	 */
-	public URLClassLoader getLibraryClassLoader() throws IllegalStateException;
+	public PluginClassLoader getLibraryClassLoader() throws IllegalStateException;
 
 	/**
 	 * 获取程序中的记录器处理器。
@@ -256,6 +332,26 @@ public interface Toolkit {
 	public ExconfigModel getModalConfigModelReadOnly() throws IllegalStateException;
 
 	/**
+	 * 获取试件类型模型。
+	 * 
+	 * @return 试件类型模型。
+	 * @throws IllegalStateException
+	 *             因为没有权限而抛出的异常。
+	 */
+	public SyncListModel<PieceCata> getPieceCataModel();
+
+	/**
+	 * 获取试件类型模型。
+	 * <p>
+	 * 该试件类型模型是只读的。
+	 * 
+	 * @return 试件类型模型。
+	 * @throws IllegalStateException
+	 *             因为没有权限而抛出的异常。
+	 */
+	public ListModel<PieceCata> getPieceCataModelReadOnly();
+
+	/**
 	 * 获取程序属性。
 	 * 
 	 * @param property
@@ -281,6 +377,8 @@ public interface Toolkit {
 	 * 该资源处理器是只读的。
 	 * 
 	 * @return 资源处理器。
+	 * @throws IllegalStateException
+	 *             因为没有权限而抛出的异常。
 	 */
 	public ResourceHandler getResourceHandlerReadOnly() throws IllegalStateException;
 
@@ -290,6 +388,17 @@ public interface Toolkit {
 	 * @return 程序的运行状态。
 	 */
 	public RuntimeState getRuntimeState() throws IllegalStateException;
+
+	/**
+	 * 返回工具包是否拥有权限执行指定的方法。
+	 * 
+	 * @param method
+	 *            指定的方法。
+	 * @return 工具是否拥有权限执行指定的方法。
+	 * @throws NullPointerException
+	 *             入口参数为 <code>null</code>。
+	 */
+	public boolean hasPermission(Method method);
 
 	/**
 	 * 使用指定的记录器处理器 <code>info</code> 一条信息。
@@ -304,13 +413,6 @@ public interface Toolkit {
 	public void info(String message) throws IllegalStateException;
 
 	/**
-	 * 返回主界面是否可见。
-	 * 
-	 * @return 主界面是否可见。
-	 */
-	public boolean isMainFrameVisible() throws IllegalStateException;
-
-	/**
 	 * 新建主界面。
 	 * 
 	 * @return 是否新建成功。
@@ -320,6 +422,19 @@ public interface Toolkit {
 	 *             过程异常。
 	 */
 	public void newMainFrame() throws IllegalStateException, ProcessException;
+
+	/**
+	 * 判断该工具包是否没有权限指定指定的方法。
+	 * 
+	 * @param method
+	 *            指定的方法。
+	 * @return 该工具包是否没有权限执行指定的方法。
+	 * @throws NullPointerException
+	 *             入口参数为 <code>null</code>。
+	 */
+	public default boolean notHasPermission(Method method) {
+		return !hasPermission(method);
+	}
 
 	/**
 	 * 设置程序的退出代码。

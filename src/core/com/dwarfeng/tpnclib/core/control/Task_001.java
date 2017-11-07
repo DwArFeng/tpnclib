@@ -155,9 +155,10 @@ final class PoseTask extends TpncLibTask {
 		formatInfo(LoggerStringKey.TASK_POSE_15, plugin_jars.length);
 		for (File plugin_jar : plugin_jars) {
 			formatInfo(LoggerStringKey.TASK_POSE_14, plugin_jar.getPath());
-			// TODO 引入 PluginClassLoader
-			// tpncLib.getToolkit().getPluginClassLoader().addURL(plugin_jar.toURI().toURL());
+			tpncLib.getToolkit().getLibraryClassLoader().addURL(plugin_jar.toURI().toURL());
 		}
+
+		// 加载试件类。
 
 		// 生成界面
 		try {

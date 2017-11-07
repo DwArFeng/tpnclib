@@ -1,5 +1,6 @@
 package com.dwarfeng.tpnclib.core.model.struct;
 
+import java.awt.Image;
 import java.util.Map;
 
 import javax.swing.text.StyledDocument;
@@ -15,7 +16,14 @@ import com.dwarfeng.dutil.basic.str.Name;
  * @author DwArFeng
  * @since 0.0.1-alpha
  */
-public interface PieceCata {
+public interface PieceCata extends Name {
+
+	/**
+	 * 获取用作图标的图片。
+	 * 
+	 * @return 用作图标的图片。
+	 */
+	public Image getIconImage();
 
 	/**
 	 * 返回自定义代码是否可用。

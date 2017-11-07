@@ -22,9 +22,14 @@ public interface StandardCodeManager {
 	/**
 	 * 获取指定的条目对应的NC代码。
 	 * 
+	 * <p>
+	 * {@link #getItems()} 中列出的所有条目均应该能生成代码。
+	 * 
 	 * @param item
 	 *            指定的条目。
 	 * @return 指定的条目对应的NC代码。
+	 * @throws IllegalArgumentException
+	 *             管理器中不存在指定的条目。
 	 */
 	public NcCode getNcCode(Name item);
 

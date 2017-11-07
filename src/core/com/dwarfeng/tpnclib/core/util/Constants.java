@@ -1,9 +1,11 @@
 package com.dwarfeng.tpnclib.core.util;
 
-import java.net.URLClassLoader;
-
 import javax.swing.Icon;
 
+import com.dwarfeng.dutil.basic.cna.model.ListModel;
+import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
+import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
+import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.basic.prog.ProgramObverser;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
@@ -22,6 +24,8 @@ import com.dwarfeng.tpnclib.core.model.eum.DialogMessage;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOption;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOptionCombo;
 import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
+import com.dwarfeng.tpnclib.core.model.io.PluginClassLoader;
+import com.dwarfeng.tpnclib.core.model.struct.PieceCata;
 import com.dwarfeng.tpnclib.core.model.struct.Toolkit;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
 import com.dwarfeng.tpnclib.core.view.struct.GuiManager;
@@ -45,6 +49,10 @@ public final class Constants {
 	 * @since 0.0.1-alpha
 	 */
 	private static final class InnerGuiManager implements GuiManager {
+
+		@Override
+		public void exit(ExecType type) {
+		}
 
 	}
 
@@ -90,6 +98,16 @@ public final class Constants {
 		}
 
 		@Override
+		public SyncReferenceModel<PieceCata> getAnchorPieceCataModel() {
+			throw new IllegalStateException("没有权限运行方法: getAnchorPieceCataModel");
+		}
+
+		@Override
+		public ReferenceModel<PieceCata> getAnchorPieceCataModelReadOnly() {
+			throw new IllegalStateException("没有权限运行方法: getAnchorPieceCataModelReadOnly");
+		}
+
+		@Override
 		public Background getBackground(BackgroundType type) throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: getBackground");
 		}
@@ -120,7 +138,7 @@ public final class Constants {
 		}
 
 		@Override
-		public URLClassLoader getLibraryClassLoader() throws IllegalStateException {
+		public PluginClassLoader getLibraryClassLoader() throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: getLibraryClassLoader");
 		}
 
@@ -160,6 +178,16 @@ public final class Constants {
 		}
 
 		@Override
+		public SyncListModel<PieceCata> getPieceCataModel() {
+			throw new IllegalStateException("没有权限运行方法: getPieceCataModel");
+		}
+
+		@Override
+		public ListModel<PieceCata> getPieceCataModelReadOnly() {
+			throw new IllegalStateException("没有权限运行方法: getPieceCataModelReadOnly");
+		}
+
+		@Override
 		public String getProperty(TpncLibProperty property) throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: getProperty");
 		}
@@ -180,13 +208,13 @@ public final class Constants {
 		}
 
 		@Override
-		public void info(String message) throws IllegalStateException {
-			throw new IllegalStateException("没有权限运行方法: info");
+		public boolean hasPermission(Method method) {
+			return false;
 		}
 
 		@Override
-		public boolean isMainFrameVisible() throws IllegalStateException {
-			throw new IllegalStateException("没有权限运行方法: isMainFrameVisible");
+		public void info(String message) throws IllegalStateException {
+			throw new IllegalStateException("没有权限运行方法: info");
 		}
 
 		@Override
@@ -324,15 +352,15 @@ public final class Constants {
 	/** 处理器默认的，没有权限的工具包。 */
 	public final static Toolkit NON_PERMISSION_TOOLKIT = new NonPermissionToolkit();
 	/** 默认标签多语言文件所在的位置 */
-	public final static String RESOURCE_I18N_LABEL_PATH = "/com/dwarfeng/tpnclib/resource/core/defaultres/i18n/label/default.properties";
+	public final static String RESOURCE_I18N_LABEL_PATH = "/com/dwarfeng/tpnclib/resource/defaultres/i18n/label/default.properties";
 	/** 默认记录器多语言文件所在的位置 */
-	public final static String RESOURCE_I18N_LOGGER_PATH = "/com/dwarfeng/tpnclib/resource/core/defaultres/i18n/logger/default.properties";
+	public final static String RESOURCE_I18N_LOGGER_PATH = "/com/dwarfeng/tpnclib/resource/defaultres/i18n/logger/default.properties";
 	/** 图片根所在的位置 */
-	public final static String RESOURCE_IMAGE_ROOT_PATH = "/com/dwarfeng/tpnclib/resource/core/image/";
+	public final static String RESOURCE_IMAGE_ROOT_PATH = "/com/dwarfeng/tpnclib/resource/image/";
 	/** 记录器的默认设置所在的资源位置。 */
-	public final static String RESOURCE_LOGGER_SETTING_PATH = "/com/dwarfeng/tpnclib/resource/core/defaultres/logger/setting.xml";
+	public final static String RESOURCE_LOGGER_SETTING_PATH = "/com/dwarfeng/tpnclib/resource/defaultres/logger/setting.xml";
 	/** 路径配置文件所在的位置。 */
-	public final static String RESOURCE_PATH = "/com/dwarfeng/tpnclib/resource/core/paths.xml";
+	public final static String RESOURCE_PATH = "/com/dwarfeng/tpnclib/resource/paths.xml";
 
 	// 禁止外部实例化
 	private Constants() {

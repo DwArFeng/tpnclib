@@ -1,18 +1,26 @@
 package com.dwarfeng.tpnclib.core.util;
 
+import java.awt.Image;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.swing.text.StyledDocument;
+
 import com.dwarfeng.dutil.basic.cna.model.obv.SetObverser;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tpnclib.core.model.cm.LoggerHandler;
 import com.dwarfeng.tpnclib.core.model.cm.SyncLoggerHandler;
+import com.dwarfeng.tpnclib.core.model.struct.CustomCodeManager;
 import com.dwarfeng.tpnclib.core.model.struct.Logger;
 import com.dwarfeng.tpnclib.core.model.struct.LoggerInfo;
+import com.dwarfeng.tpnclib.core.model.struct.PieceCata;
+import com.dwarfeng.tpnclib.core.model.struct.StandardCodeManager;
 
 /**
  * 模型工具。
@@ -23,6 +31,72 @@ import com.dwarfeng.tpnclib.core.model.struct.LoggerInfo;
  * @since 0.0.1-alpha
  */
 public final class ModelUtil {
+
+	private static final class UnmodifiablePieceCata implements PieceCata {
+
+		private final PieceCata delegate;
+
+		public UnmodifiablePieceCata(PieceCata delegate) {
+			this.delegate = delegate;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getName() {
+			return delegate.getName();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Image getIconImage() {
+			return delegate.getIconImage();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isCustomCodeAvaliable() {
+			return delegate.isCustomCodeAvaliable();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isStandardCodeAvaliable() {
+			return delegate.isStandardCodeAvaliable();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public CustomCodeManager newCustomCodeManager() {
+			throw new UnsupportedOperationException("newCustomCodeManager");
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Map<Name, StyledDocument> newInstructionDocuments() {
+			throw new UnsupportedOperationException("newInstructionDocuments");
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public StandardCodeManager newStandardCodeManager() {
+			throw new UnsupportedOperationException("newStandardCodeManager");
+		}
+
+	}
 
 	private static class SyncLoggerHandlerImpl implements SyncLoggerHandler {
 
@@ -891,6 +965,7 @@ public final class ModelUtil {
 	 *             入口参数为 <code>null</code>。
 	 */
 	public static LoggerHandler unmodifiableLoggerHandler(LoggerHandler loggerHandler) {
+		Objects.requireNonNull(loggerHandler, "入口参数 loggerHandler 不能为 null。");
 		return new UnmodifiableLoggerHandler(loggerHandler);
 	}
 
@@ -902,7 +977,20 @@ public final class ModelUtil {
 	 * @return 根据指定的记录器信息生成的不可编辑的记录器信息。
 	 */
 	public static LoggerInfo unmodifiableLoggerInfo(LoggerInfo loggerInfo) {
+		Objects.requireNonNull(loggerInfo, "入口参数 loggerInfo 不能为 null。");
 		return new UnmodifiableLoggerInfo(loggerInfo);
+	}
+
+	/**
+	 * 根据指定的试件类型生成一个不可编辑的试件类型。
+	 * 
+	 * @param pieceCata
+	 *            指定的试件类型。
+	 * @return
+	 */
+	public static PieceCata unmodifiablePieceCata(PieceCata pieceCata) {
+		Objects.requireNonNull(pieceCata, "入口参数 pieceCata 不能为 null。");
+		return new UnmodifiablePieceCata(pieceCata);
 	}
 
 	// 禁止外部实例化
