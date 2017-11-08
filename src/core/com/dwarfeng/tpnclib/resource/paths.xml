@@ -16,4 +16,7 @@
 	<info key="i18n.label.setting" path="attributes/i18n/label/setting.xml"
 		default="/com/dwarfeng/tpnclib/resource/defaultres/i18n/label/setting.xml" />
 
+	<info key="reflect.piececata" path="attributes/reflect/piece_cata.xml"
+		default="/com/dwarfeng/tpnclib/resource/defaultres/reflect/piece_cata.xml" />
+
 </root>

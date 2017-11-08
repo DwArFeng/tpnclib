@@ -13,9 +13,9 @@ import javax.swing.JTextPane;
  * @author DwArFeng
  * @since 0.0.1-alpha
  */
-final class JLineWrapableTextPane extends JTextPane {
+public final class JLineWrapableTextPane extends JTextPane {
 
-	private static final long serialVersionUID = -5600517913464391297L;
+	private static final long serialVersionUID = -307340311334665492L;
 
 	private boolean lineWrap;
 

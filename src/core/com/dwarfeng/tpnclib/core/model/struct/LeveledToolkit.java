@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.swing.Icon;
+import javax.swing.text.StyledDocument;
 
 import com.dwarfeng.dutil.basic.cna.model.ListModel;
 import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
@@ -13,6 +14,7 @@ import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.basic.prog.ProgramObverser;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.develop.backgr.Background;
 import com.dwarfeng.dutil.develop.backgr.Task;
 import com.dwarfeng.dutil.develop.cfg.ExconfigModel;
@@ -57,12 +59,17 @@ public final class LeveledToolkit implements Toolkit {
 		MIN_LEVEL_MAP.put(Method.ERROR, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.EXIT, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.FATAL, ToolkitLevel.FULL);
+		MIN_LEVEL_MAP.put(Method.GETANCHORINSTRITEMMODEL, ToolkitLevel.FULL);
+		MIN_LEVEL_MAP.put(Method.GETANCHORINSTRITEMMODELREADONLY, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETANCHORPIECECATAMODEL, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETANCHORPIECECATAMODELREADONLY, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETBACKGROUND, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETCORECONFIGMODEL, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETCORECONFIGMODELREADONLY, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETEXITCODE, ToolkitLevel.FULL);
+		MIN_LEVEL_MAP.put(Method.GETINSTRDOCMODEL, ToolkitLevel.FULL);
+		MIN_LEVEL_MAP.put(Method.GETINSTRITEMMODEL, ToolkitLevel.FULL);
+		MIN_LEVEL_MAP.put(Method.GETINSTRITEMMODELREADONLY, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETLABELI18NHANDLER, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETLABELI18NHANDLERREADONLY, ToolkitLevel.FULL);
 		MIN_LEVEL_MAP.put(Method.GETLIBRARYCLASSLOADER, ToolkitLevel.FULL);
@@ -141,6 +148,15 @@ public final class LeveledToolkit implements Toolkit {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public void disposeMainFrame() throws IllegalStateException, ProcessException {
+		checkPermissionAndState(Method.DISPOSEMAINFRAME);
+		standardToolkit.disposeMainFrame();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void error(String message, Throwable t) throws IllegalStateException {
 		checkPermissionAndState(Method.ERROR);
 		standardToolkit.error(message, t);
@@ -162,6 +178,42 @@ public final class LeveledToolkit implements Toolkit {
 	public void fatal(String message, Throwable t) throws IllegalStateException {
 		checkPermissionAndState(Method.FATAL);
 		standardToolkit.fatal(message, t);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public SyncReferenceModel<Name> getAnchorInstrItemModel() throws IllegalArgumentException {
+		checkPermissionAndState(Method.GETANCHORINSTRITEMMODEL);
+		return standardToolkit.getAnchorInstrItemModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ReferenceModel<Name> getAnchorInstrItemModelReadOnly() throws IllegalArgumentException {
+		checkPermissionAndState(Method.GETANCHORINSTRITEMMODELREADONLY);
+		return standardToolkit.getAnchorInstrItemModelReadOnly();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public SyncReferenceModel<PieceCata> getAnchorPieceCataModel() {
+		checkPermissionAndState(Method.GETANCHORPIECECATAMODEL);
+		return standardToolkit.getAnchorPieceCataModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ReferenceModel<PieceCata> getAnchorPieceCataModelReadOnly() {
+		checkPermissionAndState(Method.GETANCHORPIECECATAMODELREADONLY);
+		return standardToolkit.getAnchorPieceCataModelReadOnly();
 	}
 
 	/**
@@ -213,6 +265,33 @@ public final class LeveledToolkit implements Toolkit {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public SyncReferenceModel<StyledDocument> getInstrDocModel() throws IllegalArgumentException {
+		checkPermissionAndState(Method.GETINSTRDOCMODEL);
+		return standardToolkit.getInstrDocModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public SyncListModel<Name> getInstrItemModel() throws IllegalArgumentException {
+		checkPermissionAndState(Method.GETINSTRITEMMODEL);
+		return standardToolkit.getInstrItemModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ListModel<Name> getInstrItemModelReadOnly() throws IllegalArgumentException {
+		checkPermissionAndState(Method.GETINSTRITEMMODELREADONLY);
+		return standardToolkit.getInstrItemModelReadOnly();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public SyncI18nHandler getLabelI18nHandler() throws IllegalStateException {
 		checkPermissionAndState(Method.GETLABELI18NHANDLER);
 		return standardToolkit.getLabelI18nHandler();
@@ -225,6 +304,15 @@ public final class LeveledToolkit implements Toolkit {
 	public I18nHandler getLabelI18nHandlerReadOnly() throws IllegalStateException {
 		checkPermissionAndState(Method.GETLABELI18NHANDLERREADONLY);
 		return standardToolkit.getLabelI18nHandlerReadOnly();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public PluginClassLoader getLibraryClassLoader() throws IllegalStateException {
+		checkPermissionAndState(Method.GETLIBRARYCLASSLOADER);
+		return standardToolkit.getLibraryClassLoader();
 	}
 
 	/**
@@ -294,6 +382,33 @@ public final class LeveledToolkit implements Toolkit {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public SyncListModel<PieceCata> getPieceCataModel() {
+		checkPermissionAndState(Method.GETPIECECATAMODEL);
+		return standardToolkit.getPieceCataModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public ListModel<PieceCata> getPieceCataModelReadOnly() {
+		checkPermissionAndState(Method.GETPIECECATAMODELREADONLY);
+		return standardToolkit.getPieceCataModelReadOnly();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getProperty(TpncLibProperty property) throws IllegalStateException {
+		checkPermissionAndState(Method.GETPROPERTY);
+		return standardToolkit.getProperty(property);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public SyncResourceHandler getResourceHandler() throws IllegalStateException {
 		checkPermissionAndState(Method.GETRESOURCEHANDLER);
 		return standardToolkit.getResourceHandler();
@@ -333,6 +448,15 @@ public final class LeveledToolkit implements Toolkit {
 	public void info(String message) throws IllegalStateException {
 		checkPermissionAndState(Method.INFO);
 		standardToolkit.info(message);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void newMainFrame() throws IllegalStateException, ProcessException {
+		checkPermissionAndState(Method.GETPROPERTY);
+		standardToolkit.newMainFrame();
 	}
 
 	/**
@@ -579,78 +703,6 @@ public final class LeveledToolkit implements Toolkit {
 		}
 
 		return MIN_LEVEL_MAP.get(method);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void disposeMainFrame() throws IllegalStateException, ProcessException {
-		checkPermissionAndState(Method.DISPOSEMAINFRAME);
-		standardToolkit.disposeMainFrame();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SyncReferenceModel<PieceCata> getAnchorPieceCataModel() {
-		checkPermissionAndState(Method.GETANCHORPIECECATAMODEL);
-		return standardToolkit.getAnchorPieceCataModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ReferenceModel<PieceCata> getAnchorPieceCataModelReadOnly() {
-		checkPermissionAndState(Method.GETANCHORPIECECATAMODELREADONLY);
-		return standardToolkit.getAnchorPieceCataModelReadOnly();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public PluginClassLoader getLibraryClassLoader() throws IllegalStateException {
-		checkPermissionAndState(Method.GETLIBRARYCLASSLOADER);
-		return standardToolkit.getLibraryClassLoader();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SyncListModel<PieceCata> getPieceCataModel() {
-		checkPermissionAndState(Method.GETPIECECATAMODEL);
-		return standardToolkit.getPieceCataModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public ListModel<PieceCata> getPieceCataModelReadOnly() {
-		checkPermissionAndState(Method.GETPIECECATAMODELREADONLY);
-		return standardToolkit.getPieceCataModelReadOnly();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getProperty(TpncLibProperty property) throws IllegalStateException {
-		checkPermissionAndState(Method.GETPROPERTY);
-		return standardToolkit.getProperty(property);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void newMainFrame() throws IllegalStateException, ProcessException {
-		checkPermissionAndState(Method.GETPROPERTY);
-		standardToolkit.newMainFrame();
 	}
 
 }

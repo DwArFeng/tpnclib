@@ -16,7 +16,7 @@ import com.dwarfeng.tpnclib.core.model.eum.ResourceKey;
 import com.dwarfeng.tpnclib.core.model.struct.Toolkit.BackgroundType;
 import com.dwarfeng.tpnclib.core.util.ViewUtil;
 
-class DisposeTask extends TpncLibTask {
+final class DisposeTask extends TpncLibTask {
 
 	private static final int BACKGROUND_MASK = 1;
 	private static final int MODAL_CONFIG_TASK = 2;

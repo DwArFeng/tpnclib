@@ -15,6 +15,7 @@ import java.util.WeakHashMap;
 import java.util.concurrent.Executors;
 
 import javax.swing.Icon;
+import javax.swing.text.StyledDocument;
 
 import com.dwarfeng.dutil.basic.cna.model.DefaultReferenceModel;
 import com.dwarfeng.dutil.basic.cna.model.DelegateListModel;
@@ -28,6 +29,7 @@ import com.dwarfeng.dutil.basic.prog.ProgramObverser;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
 import com.dwarfeng.dutil.basic.prog.Version;
 import com.dwarfeng.dutil.basic.prog.VersionType;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.develop.backgr.Background;
 import com.dwarfeng.dutil.develop.backgr.ExecutorServiceBackground;
 import com.dwarfeng.dutil.develop.backgr.Task;
@@ -171,6 +173,25 @@ public final class TpncLib {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public SyncReferenceModel<Name> getAnchorInstrItemModel() throws IllegalArgumentException {
+			return anchorInstructionItemModel;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public ReferenceModel<Name> getAnchorInstrItemModelReadOnly() throws IllegalArgumentException {
+			return com.dwarfeng.dutil.basic.cna.model.ModelUtil.readOnlyReferenceModel(anchorInstructionItemModel,
+					name -> {
+						return name;
+					});
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public SyncReferenceModel<PieceCata> getAnchorPieceCataModel() {
 			return anchorPieceCataModel;
 		}
@@ -225,6 +246,32 @@ public final class TpncLib {
 			synchronized (exitCodeLock) {
 				return exitCode;
 			}
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public SyncReferenceModel<StyledDocument> getInstrDocModel() throws IllegalArgumentException {
+			return instrDocModel;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public SyncListModel<Name> getInstrItemModel() throws IllegalArgumentException {
+			return instrItemModel;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public ListModel<Name> getInstrItemModelReadOnly() throws IllegalArgumentException {
+			return com.dwarfeng.dutil.basic.cna.model.ModelUtil.readOnlyListModel(instrItemModel, name -> {
+				return name;
+			});
 		}
 
 		/**
@@ -633,6 +680,11 @@ public final class TpncLib {
 			doTask(new ExitTask(TpncLib.this), type);
 		}
 
+		@Override
+		public void setAnchorPieceCata(PieceCata newValue, ExecType type) {
+			doTask(new SetAnchorPieceCataTask(TpncLib.this, newValue), type);
+		}
+
 		private void doTask(Task task, ExecType type) {
 			Objects.requireNonNull(type, "入口参数 type 不能为 null。");
 
@@ -648,7 +700,7 @@ public final class TpncLib {
 		}
 
 	}
-	
+
 	/** 程序的版本 */
 	public final static Version VERSION = new DefaultVersion.Builder().type(VersionType.ALPHA).firstVersion((byte) 0)
 			.secondVersion((byte) 0).thirdVersion((byte) 1).buildDate("19700101").buildVersion('A').build();
@@ -688,6 +740,15 @@ public final class TpncLib {
 			.syncListModel(new DelegateListModel<>());
 	// 锚点试件类型
 	private final SyncReferenceModel<PieceCata> anchorPieceCataModel = com.dwarfeng.dutil.basic.cna.model.ModelUtil
+			.syncReferenceModel(new DefaultReferenceModel<>());
+	// 指导条目列表模型
+	private final SyncListModel<Name> instrItemModel = com.dwarfeng.dutil.basic.cna.model.ModelUtil
+			.syncListModel(new DelegateListModel<>());
+	// 锚点指导条目模型
+	private final SyncReferenceModel<Name> anchorInstructionItemModel = com.dwarfeng.dutil.basic.cna.model.ModelUtil
+			.syncReferenceModel(new DefaultReferenceModel<>());
+	// 指导文档模型
+	private final SyncReferenceModel<StyledDocument> instrDocModel = com.dwarfeng.dutil.basic.cna.model.ModelUtil
 			.syncReferenceModel(new DefaultReferenceModel<>());
 	// 库类加载器
 	private final PluginClassLoader libraryClassLoader = new DefaultPluginClassLoader(new URL[0],

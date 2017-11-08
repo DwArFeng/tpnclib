@@ -1,6 +1,6 @@
 package com.dwarfeng.tpnclib.core.control;
 
-class StartTask extends TpncLibTask {
+final class StartTask extends TpncLibTask {
 
 	public StartTask(TpncLib tpncLib) {
 		super(tpncLib);
@@ -16,7 +16,7 @@ class StartTask extends TpncLibTask {
 	}
 }
 
-class ExitTask extends TpncLibTask {
+final class ExitTask extends TpncLibTask {
 
 	public ExitTask(TpncLib tpncLib) {
 		super(tpncLib);

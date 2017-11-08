@@ -24,15 +24,9 @@ public enum ResourceKey implements Name {
 
 	/** 记录器多语言化的设置 */
 	I18N_LABEL_SETTING("i18n.label.setting"),
-	
-	/** 工程处理器的反射设置*/
-	REFLECT_PROJPROC("reflect.projproc"),
-	
-	/** 文件处理器的反射设置*/
-	REFLECT_FILEPROC("reflect.fileproc"),
-	
-	/**处理器的配置设置*/
-	PROCESSOR_CONFIG_SETTING("processor.config.setting"),
+
+	/** 试件类型的反射设置 */
+	REFLECT_PIECECATA("reflect.piececata"),
 
 	;
 

@@ -1,6 +1,7 @@
 package com.dwarfeng.tpnclib.core.util;
 
 import javax.swing.Icon;
+import javax.swing.text.StyledDocument;
 
 import com.dwarfeng.dutil.basic.cna.model.ListModel;
 import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
@@ -9,6 +10,7 @@ import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.basic.prog.ProgramObverser;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.develop.backgr.Background;
 import com.dwarfeng.dutil.develop.backgr.Task;
 import com.dwarfeng.dutil.develop.cfg.ExconfigModel;
@@ -52,6 +54,10 @@ public final class Constants {
 
 		@Override
 		public void exit(ExecType type) {
+		}
+
+		@Override
+		public void setAnchorPieceCata(PieceCata newValue, ExecType type) {
 		}
 
 	}
@@ -98,6 +104,16 @@ public final class Constants {
 		}
 
 		@Override
+		public SyncReferenceModel<Name> getAnchorInstrItemModel() throws IllegalArgumentException {
+			throw new IllegalStateException("没有权限运行方法: getAnchorInstrItemModel");
+		}
+
+		@Override
+		public ReferenceModel<Name> getAnchorInstrItemModelReadOnly() throws IllegalArgumentException {
+			throw new IllegalStateException("没有权限运行方法: getAnchorInstrItemModelReadOnly");
+		}
+
+		@Override
 		public SyncReferenceModel<PieceCata> getAnchorPieceCataModel() {
 			throw new IllegalStateException("没有权限运行方法: getAnchorPieceCataModel");
 		}
@@ -125,6 +141,21 @@ public final class Constants {
 		@Override
 		public int getExitCode() throws IllegalStateException {
 			throw new IllegalStateException("没有权限运行方法: getExitCode");
+		}
+
+		@Override
+		public SyncReferenceModel<StyledDocument> getInstrDocModel() throws IllegalArgumentException {
+			throw new IllegalStateException("没有权限运行方法: getInstrDocModel");
+		}
+
+		@Override
+		public SyncListModel<Name> getInstrItemModel() throws IllegalArgumentException {
+			throw new IllegalStateException("没有权限运行方法: getInstrItemModel");
+		}
+
+		@Override
+		public ListModel<Name> getInstrItemModelReadOnly() throws IllegalArgumentException {
+			throw new IllegalStateException("没有权限运行方法: getInstrItemModelReadOnly");
 		}
 
 		@Override

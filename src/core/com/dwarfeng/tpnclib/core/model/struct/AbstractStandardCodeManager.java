@@ -20,7 +20,7 @@ public abstract class AbstractStandardCodeManager implements StandardCodeManager
 	/** 该管理器的NC代码映射。 */
 	protected final Map<Name, NcCode> codeMap;
 
-	public AbstractStandardCodeManager(Toolkit toolkit, List<Name> items, Map<Name, NcCode> codeMap) {
+	protected AbstractStandardCodeManager(Toolkit toolkit, List<Name> items, Map<Name, NcCode> codeMap) {
 		this.toolkit = toolkit;
 		this.items = items;
 		this.codeMap = codeMap;

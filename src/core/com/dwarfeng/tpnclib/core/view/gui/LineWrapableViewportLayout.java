@@ -9,9 +9,9 @@ import javax.swing.JViewport;
 import javax.swing.Scrollable;
 import javax.swing.ViewportLayout;
 
-final class LineWrapableViewportLayout extends ViewportLayout {
+public final class LineWrapableViewportLayout extends ViewportLayout {
 
-	private static final long serialVersionUID = -2819144845835739146L;
+	private static final long serialVersionUID = 7006838380109771544L;
 
 	@Override
 	public void layoutContainer(Container parent) {

@@ -1,6 +1,7 @@
 package com.dwarfeng.tpnclib.core.model.struct;
 
 import javax.swing.Icon;
+import javax.swing.text.StyledDocument;
 
 import com.dwarfeng.dutil.basic.cna.model.ListModel;
 import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
@@ -9,6 +10,7 @@ import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.basic.prog.ProgramObverser;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
+import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.dutil.develop.backgr.Background;
 import com.dwarfeng.dutil.develop.backgr.Task;
 import com.dwarfeng.dutil.develop.cfg.ExconfigModel;
@@ -62,12 +64,17 @@ public interface Toolkit {
 		ERROR, //
 		EXIT, //
 		FATAL, //
+		GETANCHORINSTRITEMMODEL, //
+		GETANCHORINSTRITEMMODELREADONLY, //
 		GETANCHORPIECECATAMODEL, //
 		GETANCHORPIECECATAMODELREADONLY, //
 		GETBACKGROUND, //
 		GETCORECONFIGMODEL, //
 		GETCORECONFIGMODELREADONLY, //
 		GETEXITCODE, //
+		GETINSTRDOCMODEL, //
+		GETINSTRITEMMODEL, //
+		GETINSTRITEMMODELREADONLY, //
 		GETLABELI18NHANDLER, //
 		GETLABELI18NHANDLERREADONLY, //
 		GETLIBRARYCLASSLOADER, //
@@ -171,6 +178,26 @@ public interface Toolkit {
 	public void fatal(String message, Throwable t) throws IllegalStateException;
 
 	/**
+	 * 获取锚点指导条目模型。
+	 * 
+	 * @return 锚点指导条目模型。
+	 * @throws IllegalStateException
+	 *             因为没有执行权限而抛出的异常。
+	 */
+	public SyncReferenceModel<Name> getAnchorInstrItemModel() throws IllegalArgumentException;
+
+	/**
+	 * 获取锚点指导条目模型。
+	 * <p>
+	 * 该模型是只读的。
+	 * 
+	 * @return 锚点指导条目模型。
+	 * @throws IllegalStateException
+	 *             因为没有执行权限而抛出的异常。
+	 */
+	public ReferenceModel<Name> getAnchorInstrItemModelReadOnly() throws IllegalArgumentException;
+
+	/**
 	 * 获取锚点试件模型。
 	 * 
 	 * @return 锚点试件模型。
@@ -229,6 +256,35 @@ public interface Toolkit {
 	 * @return 程序的退出代码。
 	 */
 	public int getExitCode() throws IllegalStateException;
+
+	/**
+	 * 获取指导文档模型。
+	 * 
+	 * @return 指导文档模型。
+	 * @throws IllegalStateException
+	 *             因为没有执行权限而抛出的异常。
+	 */
+	public SyncReferenceModel<StyledDocument> getInstrDocModel() throws IllegalArgumentException;
+
+	/**
+	 * 获取指导条目列表模型。
+	 * 
+	 * @return 指导条目列表模型。
+	 * @throws IllegalStateException
+	 *             因为没有执行权限而抛出的异常。
+	 */
+	public SyncListModel<Name> getInstrItemModel() throws IllegalArgumentException;
+
+	/**
+	 * 获取指导条目列表模型。
+	 * <p>
+	 * 该模型是只读的。
+	 * 
+	 * @return 指导条目列表模型。
+	 * @throws IllegalStateException
+	 *             因为没有执行权限而抛出的异常。
+	 */
+	public ListModel<Name> getInstrItemModelReadOnly() throws IllegalArgumentException;
 
 	/**
 	 * 获取标签国际化处理器。

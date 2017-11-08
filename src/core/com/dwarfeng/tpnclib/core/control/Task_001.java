@@ -19,6 +19,7 @@ import com.dwarfeng.tpnclib.core.model.eum.LoggerStringKey;
 import com.dwarfeng.tpnclib.core.model.eum.ResourceKey;
 import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
 import com.dwarfeng.tpnclib.core.model.io.Log4jLoggerLoader;
+import com.dwarfeng.tpnclib.core.model.io.XmlPieceCataLoader;
 import com.dwarfeng.tpnclib.core.util.Constants;
 import com.dwarfeng.tpnclib.core.util.ViewUtil;
 
@@ -158,7 +159,23 @@ final class PoseTask extends TpncLibTask {
 			tpncLib.getToolkit().getLibraryClassLoader().addURL(plugin_jar.toURI().toURL());
 		}
 
-		// 加载试件类。
+		// 加载试件类型。
+		info(LoggerStringKey.TASK_POSE_20);
+		XmlPieceCataLoader pieceCataLoader = null;
+		try {
+			pieceCataLoader = new XmlPieceCataLoader(
+					forceOpenInputStream(ResourceKey.REFLECT_PIECECATA, LoggerStringKey.TASK_POSE_0),
+					tpncLib.getToolkit().getLibraryClassLoader(), tpncLib.getToolkit());
+			Set<LoadFailedException> loadFailedExceptions = pieceCataLoader
+					.countinuousLoad(tpncLib.getToolkit().getPieceCataModel());
+			for (LoadFailedException e : loadFailedExceptions) {
+				warn(LoggerStringKey.TASK_POSE_21, e);
+			}
+		} finally {
+			if (Objects.nonNull(pieceCataLoader)) {
+				pieceCataLoader.close();
+			}
+		}
 
 		// 生成界面
 		try {
