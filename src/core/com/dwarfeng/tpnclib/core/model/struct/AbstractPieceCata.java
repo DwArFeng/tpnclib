@@ -27,8 +27,6 @@ public abstract class AbstractPieceCata implements PieceCata {
 	protected final Name name;
 	/** 指定的图标图片。 */
 	protected final Image iconImage;
-	/** 指导条目列表。 */
-	protected final List<Name> instrItems;
 
 	/**
 	 * 新实例。
@@ -39,19 +37,15 @@ public abstract class AbstractPieceCata implements PieceCata {
 	 *            指定的试件名称，不能为 <code>null</code>。
 	 * @param iconImage
 	 *            指定的图标图片。
-	 * @param instrItems
-	 *            指定的指导条目列表，不能为 <code>null</code>。
 	 * @throws NullPointerException
 	 *             指定的入口参数为 <code> null </code>。
 	 */
-	protected AbstractPieceCata(Toolkit toolkit, Name name, Image iconImage, List<Name> instrItems) {
+	protected AbstractPieceCata(Toolkit toolkit, Name name, Image iconImage) {
 		Objects.requireNonNull(name, "入口参数 name 不能为 null。");
-		Objects.requireNonNull(instrItems, "入口参数 instrItems 不能为 null。");
 
 		this.toolkit = Objects.isNull(toolkit) ? Constants.NON_PERMISSION_TOOLKIT : toolkit;
 		this.name = name;
 		this.iconImage = iconImage;
-		this.instrItems = instrItems;
 	}
 
 	/**
@@ -60,14 +54,6 @@ public abstract class AbstractPieceCata implements PieceCata {
 	@Override
 	public Image getIconImage() {
 		return iconImage;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public List<Name> getInstructionItems() {
-		return Collections.unmodifiableList(instrItems);
 	}
 
 	/**
@@ -83,6 +69,14 @@ public abstract class AbstractPieceCata implements PieceCata {
 	 */
 	@Override
 	public boolean isCustomCodeAvaliable() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isInstrAvaliable() {
 		return false;
 	}
 
@@ -106,8 +100,7 @@ public abstract class AbstractPieceCata implements PieceCata {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public StyledDocument newInstruction(Name item) {
-		// TODO Auto-generated method stub
+	public InstrManager newInstrManager() {
 		return null;
 	}
 

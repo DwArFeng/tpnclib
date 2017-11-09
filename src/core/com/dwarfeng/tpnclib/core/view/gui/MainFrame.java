@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.StyledDocument;
 
 import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
 import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
@@ -33,18 +34,19 @@ public final class MainFrame extends TpncLibFrame {
 	private final MfMenuBar_01 mfMenuBar_01;
 	private final JAdjustableBorderPanel adjustableBorderPanel;
 	private final MfPanel_01 mfPanel_01;
+	private final JPanel panel_1;
+	private final MfPanel_02 mfPanel_02;
+	private final MfPanel_03 mfPanel_03;
 
 	private SyncListModel<PieceCata> pieceCataModel;
 	private SyncReferenceModel<PieceCata> anchorPieceCataModel;
-	private JPanel panel_1;
-	private MfPanel_02 mfPanel_02;
-	private MfPanel_03 mfPanel_03;
+	private SyncReferenceModel<StyledDocument> instrDocModel;
 
 	/**
 	 * 新实例。
 	 */
 	public MainFrame() {
-		this(null, null, null, null);
+		this(null, null, null, null, null);
 	}
 
 	/**
@@ -53,9 +55,10 @@ public final class MainFrame extends TpncLibFrame {
 	 * @param i18nHandler
 	 * @param pieceCataModel
 	 * @param anchorPieceCataModel
+	 * @param instrDocModel
 	 */
 	public MainFrame(GuiManager guiManager, I18nHandler i18nHandler, SyncListModel<PieceCata> pieceCataModel,
-			SyncReferenceModel<PieceCata> anchorPieceCataModel) {
+			SyncReferenceModel<PieceCata> anchorPieceCataModel, SyncReferenceModel<StyledDocument> instrDocModel) {
 		super(guiManager, i18nHandler);
 
 		addWindowListener(new WindowAdapter() {
@@ -91,7 +94,7 @@ public final class MainFrame extends TpncLibFrame {
 		mfPanel_02 = new MfPanel_02(guiManager, i18nHandler);
 		panel_1.add(mfPanel_02, BorderLayout.NORTH);
 
-		mfPanel_03 = new MfPanel_03(guiManager, i18nHandler);
+		mfPanel_03 = new MfPanel_03(guiManager, i18nHandler, instrDocModel);
 		panel_1.add(mfPanel_03, BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
@@ -117,6 +120,10 @@ public final class MainFrame extends TpncLibFrame {
 		gbc_lblNewLabel_1.gridy = 0;
 		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
+		this.pieceCataModel = pieceCataModel;
+		this.anchorPieceCataModel = anchorPieceCataModel;
+		this.instrDocModel = instrDocModel;
+
 	}
 
 	/**
@@ -133,6 +140,13 @@ public final class MainFrame extends TpncLibFrame {
 	 */
 	public SyncReferenceModel<PieceCata> getAnchorPieceCataModel() {
 		return anchorPieceCataModel;
+	}
+
+	/**
+	 * @return the instrDocModel
+	 */
+	public SyncReferenceModel<StyledDocument> getInstrDocModel() {
+		return instrDocModel;
 	}
 
 	/**
@@ -159,6 +173,16 @@ public final class MainFrame extends TpncLibFrame {
 		this.mfPanel_01.setAnchorPieceCataModel(anchorPieceCataModel);
 
 		this.anchorPieceCataModel = anchorPieceCataModel;
+	}
+
+	/**
+	 * @param instrDocModel
+	 *            the instrDocModel to set
+	 */
+	public void setInstrDocModel(SyncReferenceModel<StyledDocument> instrDocModel) {
+		this.mfPanel_03.setInstrDocModel(instrDocModel);
+
+		this.instrDocModel = instrDocModel;
 	}
 
 	/**

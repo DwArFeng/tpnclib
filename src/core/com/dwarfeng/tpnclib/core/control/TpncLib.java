@@ -433,7 +433,8 @@ public final class TpncLib {
 					return;
 				}
 
-				mainFrame = new MainFrame(guiManager, labelI18nHandler, pieceCataModel, anchorPieceCataModel);
+				mainFrame = new MainFrame(guiManager, labelI18nHandler, pieceCataModel, anchorPieceCataModel,
+						instrDocModel);
 			}
 		}
 

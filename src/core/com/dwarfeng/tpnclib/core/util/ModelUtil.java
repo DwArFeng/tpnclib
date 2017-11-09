@@ -4,19 +4,16 @@ import java.awt.Image;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javax.swing.text.StyledDocument;
-
 import com.dwarfeng.dutil.basic.cna.model.obv.SetObverser;
-import com.dwarfeng.dutil.basic.str.Name;
 import com.dwarfeng.tpnclib.core.model.cm.LoggerHandler;
 import com.dwarfeng.tpnclib.core.model.cm.SyncLoggerHandler;
 import com.dwarfeng.tpnclib.core.model.struct.CustomCodeManager;
+import com.dwarfeng.tpnclib.core.model.struct.InstrManager;
 import com.dwarfeng.tpnclib.core.model.struct.Logger;
 import com.dwarfeng.tpnclib.core.model.struct.LoggerInfo;
 import com.dwarfeng.tpnclib.core.model.struct.PieceCata;
@@ -31,72 +28,6 @@ import com.dwarfeng.tpnclib.core.model.struct.StandardCodeManager;
  * @since 0.0.1-alpha
  */
 public final class ModelUtil {
-
-	private static final class UnmodifiablePieceCata implements PieceCata {
-
-		private final PieceCata delegate;
-
-		public UnmodifiablePieceCata(PieceCata delegate) {
-			this.delegate = delegate;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getName() {
-			return delegate.getName();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Image getIconImage() {
-			return delegate.getIconImage();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean isCustomCodeAvaliable() {
-			return delegate.isCustomCodeAvaliable();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean isStandardCodeAvaliable() {
-			return delegate.isStandardCodeAvaliable();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public CustomCodeManager newCustomCodeManager() {
-			throw new UnsupportedOperationException("newCustomCodeManager");
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Map<Name, StyledDocument> newInstructionDocuments() {
-			throw new UnsupportedOperationException("newInstructionDocuments");
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public StandardCodeManager newStandardCodeManager() {
-			throw new UnsupportedOperationException("newStandardCodeManager");
-		}
-
-	}
 
 	private static class SyncLoggerHandlerImpl implements SyncLoggerHandler {
 
@@ -937,6 +868,80 @@ public final class ModelUtil {
 		@Override
 		public Logger newLogger() throws Exception {
 			throw new UnsupportedOperationException();
+		}
+
+	}
+
+	private static final class UnmodifiablePieceCata implements PieceCata {
+
+		private final PieceCata delegate;
+
+		public UnmodifiablePieceCata(PieceCata delegate) {
+			this.delegate = delegate;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Image getIconImage() {
+			return delegate.getIconImage();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String getName() {
+			return delegate.getName();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isCustomCodeAvaliable() {
+			return delegate.isCustomCodeAvaliable();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isInstrAvaliable() {
+			return delegate.isInstrAvaliable();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean isStandardCodeAvaliable() {
+			return delegate.isStandardCodeAvaliable();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public CustomCodeManager newCustomCodeManager() {
+			throw new UnsupportedOperationException("newCustomCodeManager");
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public InstrManager newInstrManager() {
+			throw new UnsupportedOperationException("newInstrManager");
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public StandardCodeManager newStandardCodeManager() {
+			throw new UnsupportedOperationException("newStandardCodeManager");
 		}
 
 	}

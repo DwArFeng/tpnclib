@@ -1,12 +1,18 @@
 package com.dwarfeng.tpnclib.core.util;
 
+import java.awt.EventQueue;
+
 import javax.swing.Icon;
+import javax.swing.UIManager;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyledDocument;
 
 import com.dwarfeng.dutil.basic.cna.model.ListModel;
 import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
 import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
 import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
+import com.dwarfeng.dutil.basic.gui.awt.ImageUtil;
 import com.dwarfeng.dutil.basic.prog.ProcessException;
 import com.dwarfeng.dutil.basic.prog.ProgramObverser;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
@@ -20,18 +26,25 @@ import com.dwarfeng.dutil.develop.i18n.I18nHandler;
 import com.dwarfeng.dutil.develop.i18n.SyncI18nHandler;
 import com.dwarfeng.dutil.develop.resource.ResourceHandler;
 import com.dwarfeng.dutil.develop.resource.SyncResourceHandler;
+import com.dwarfeng.tpnclib.core.control.TpncLib;
 import com.dwarfeng.tpnclib.core.model.cm.LoggerHandler;
 import com.dwarfeng.tpnclib.core.model.cm.SyncLoggerHandler;
 import com.dwarfeng.tpnclib.core.model.eum.DialogMessage;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOption;
 import com.dwarfeng.tpnclib.core.model.eum.DialogOptionCombo;
+import com.dwarfeng.tpnclib.core.model.eum.ImageKey;
 import com.dwarfeng.tpnclib.core.model.eum.TpncLibProperty;
 import com.dwarfeng.tpnclib.core.model.io.PluginClassLoader;
 import com.dwarfeng.tpnclib.core.model.struct.PieceCata;
 import com.dwarfeng.tpnclib.core.model.struct.Toolkit;
+import com.dwarfeng.tpnclib.core.util.DocumentUtil.BlockStyle;
+import com.dwarfeng.tpnclib.core.util.DocumentUtil.ParagraphStyle;
 import com.dwarfeng.tpnclib.core.view.gui.MainFrame;
+import com.dwarfeng.tpnclib.core.view.struct.DocumentBlock;
+import com.dwarfeng.tpnclib.core.view.struct.DocumentParagraph;
 import com.dwarfeng.tpnclib.core.view.struct.GuiManager;
 import com.dwarfeng.tpnclib.core.view.struct.WindowSuppiler;
+import com.dwarfeng.tpnclib.test.DocumentTester;
 
 /**
  * 记录程序中的各种常量。
@@ -40,6 +53,60 @@ import com.dwarfeng.tpnclib.core.view.struct.WindowSuppiler;
  * @since 0.0.1-alpha
  */
 public final class Constants {
+
+	/**
+	 * 首页文档。
+	 * 
+	 * @author DwArFeng
+	 * @since 0.0.1-alpha
+	 */
+	static final class FrontPageDocument extends DefaultStyledDocument {
+
+		/**
+		 * 测试该文档。
+		 */
+		public static void main(String[] args) {
+			EventQueue.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						UIManager.setLookAndFeel(new NimbusLookAndFeel());
+						DocumentTester frame = new DocumentTester(new FrontPageDocument());
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+
+		public FrontPageDocument() {
+			super();
+			init();
+		}
+
+		private void init() {
+			DocumentUtil.addDocumentParagraph(this, new DocumentParagraph(DocumentUtil.quickStyle(ParagraphStyle.TITLE),
+					new DocumentBlock[] { new DocumentBlock(DocumentUtil.quickStyle(BlockStyle.NONE), "试切程序库") }));
+			DocumentUtil.addDocumentParagraph(this, new DocumentParagraph(
+					DocumentUtil.quickStyle(ParagraphStyle.HEADING),
+					new DocumentBlock[] { new DocumentBlock(
+							DocumentUtil.quickStyle(ImageUtil.getInternalImage(ImageKey.FROUNTPAGE_DOCUMENT_TITLE)),
+							" ") }));
+			DocumentUtil.addDocumentParagraph(this,
+					new DocumentParagraph(DocumentUtil.quickStyle(ParagraphStyle.AUTHOR), new DocumentBlock[] {
+							new DocumentBlock(DocumentUtil.quickStyle(BlockStyle.NONE), "济南二机床 - 数控机床公司工艺技术室") }));
+			DocumentUtil.addDocumentParagraph(this,
+					new DocumentParagraph(DocumentUtil.quickStyle(ParagraphStyle.EDITION), new DocumentBlock[] {
+							new DocumentBlock(DocumentUtil.quickStyle(BlockStyle.NONE), TpncLib.VERSION.toString()) }));
+			DocumentUtil.addDocumentParagraph(this,
+					new DocumentParagraph(DocumentUtil.quickStyle(ParagraphStyle.NORMAL),
+							new DocumentBlock[] { new DocumentBlock(DocumentUtil.quickStyle(BlockStyle.NONE),
+									"该程序库总结整理了多种试切程序，可以为机床试切提供标准化程序。") }));
+
+		}
+
+	}
 
 	/**
 	 * 无动作GUI管理器。
@@ -374,14 +441,21 @@ public final class Constants {
 
 	}
 
+	/** 封面文本 */
+	public final static StyledDocument FRONTPAGE_DOCUMENT = new FrontPageDocument();
+	/** 空白文本 */
+	public final static StyledDocument EMPTY_DOCUMENT = new DefaultStyledDocument();
+
 	/** 默认的，不执行任何动作的 GUI 管理器 */
 	public final static GuiManager DEFAULT_GUIMANAGER = new InnerGuiManager();
+	/** 处理器默认的，没有权限的工具包。 */
+	public final static Toolkit NON_PERMISSION_TOOLKIT = new NonPermissionToolkit();
+
 	/** 默认的记录器信息的键 */
 	public final static String LOGGER_DEFAULT = "std.all";
 	/** 默认的丢失文本字段 */
 	public final static String MISSING_LABEL = "！文本丢失";
-	/** 处理器默认的，没有权限的工具包。 */
-	public final static Toolkit NON_PERMISSION_TOOLKIT = new NonPermissionToolkit();
+
 	/** 默认标签多语言文件所在的位置 */
 	public final static String RESOURCE_I18N_LABEL_PATH = "/com/dwarfeng/tpnclib/resource/defaultres/i18n/label/default.properties";
 	/** 默认记录器多语言文件所在的位置 */

@@ -177,6 +177,9 @@ final class PoseTask extends TpncLibTask {
 			}
 		}
 
+		// 指派首页文档
+		tpncLib.getToolkit().getInstrDocModel().set(Constants.FRONTPAGE_DOCUMENT);
+		
 		// 生成界面
 		try {
 			SwingUtil.invokeAndWaitInEventQueue(() -> {
